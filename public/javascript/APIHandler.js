@@ -1,53 +1,43 @@
 class APIHandler {
   constructor(baseUrl) {
-    this.BASE_URL = axios.create({
-      baseUrl: 'http://localhost:8000/characters'
-    });
+    this.BASE_URL = baseUrl;
   }
 
-  async getFullList() {
+  // async getFullList() {
+ async getFullList() {
+   return await axios.get(`${this.BASE_URL}/characters`)
+    //   if(all.status === 200){
+    //   console.log("Successfully fetched all");
+    // } else {
+    //   console.log("COuldnt fetch")
+  // }
+  }
 
-   const all = await axios
-   .get(`http://localhost:8000/characters`)
 
-      if(all.status === 200){
-      console.log("Successfully fetched all");
+  async getOneRegister(id) {
+    return await axios.get(`${this.BASE_URL}/characters/${id}`)
+   
+    if(characterId.status === 200){
+      console.log("Successfully fetched id");
     } else {
-      console.log("COuldnt fetch")
+      console.log("Couldnt fetch id")
     }
-    return all
   }
 
-
-  getOneRegister(id) {
-    return this.BASE_URL.get('/:id')
-
-    // axios
-    //   .get(`http://localhost:8000/characters/:id`)
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data))
-    //   .catch(err => {
-    //     console.log(err);
-    //     err.response.status === 404 ? alert(`The data doesn't exist.`) : alert('Server error! Sorry.');
-    //   })
-
+  async createOneRegister(characterInfo) {
+    return await axios.post(`${this.BASE_URL}/characters`, characterInfo)
   }
 
-  createOneRegister(characterInfo) {
-    return this.BASE_URL.post('', characterInfo)
-  }
-
-  updateOneRegister(id) {
-    return this.BASE_URL.put('/:id', id)
+  async updateOneRegister(id) {
+    return await axios.get(`${this.BASE_URL}/characters/${id}`, id)
   }
 
   async deleteOneRegister(id) {
-    const response = await axios.delete("http://localhost:8000/characters/:id")
-    if(response.status === 200){
-      console.log("Successfully deleted");
-    } else {
-      console.log("Character wasn't found")
-    }
-    return response .data
+    return await axios.delete(`${this.BASE_URL}/characters/${id}`)
+    // if(response.status === 200){
+    //   console.log("Successfully deleted");
+    // } else {
+    //   console.log("Character wasn't found")
+    // }
   }
 }
