@@ -1,8 +1,9 @@
 const charactersAPI = new APIHandler('http://localhost:8000');
 
 window.addEventListener('load', () => {
-  document.getElementById('fetch-all').addEventListener('click', async () => {
-    let allCharacters = await charactersAPI.getFullList()
+  document.getElementById('fetch-all').addEventListener('click', async function (event) {
+    event.preventDefault()
+    const allCharacters = await charactersAPI.getFullList()
     
     function printAll(){
     const parentContainer = document.querySelector(".characters-container");
@@ -26,8 +27,11 @@ window.addEventListener('load', () => {
   printAll()
   });
 
-  document.getElementById('fetch-one').addEventListener('click', async () => {
+  document.getElementById('fetch-one').addEventListener('click', async function (event) {
+    event.preventDefault()
     const characterId = (document.getElementsByName("character-id"))[0].value
+
+    if(characterId !== ""){
     const {data} = await charactersAPI.getOneRegister(characterId)
 
     const parentContainer = document.querySelector(".characters-container");
@@ -44,12 +48,15 @@ window.addEventListener('load', () => {
           `;
 
           parentContainer.appendChild(newContainer);
+          document.getElementsByName("character-id").innerHTML = ""
+    }
   });
 
   document.getElementById('delete-one').addEventListener('click', async() => {
     const characterId = (document.getElementsByName("character-id-delete"))[0].value
     await charactersAPI.deleteOneRegister(characterId)
 
+    document.getElementsByName("character-id-delete").innerHTML = ""
     printAll()
   });
 
